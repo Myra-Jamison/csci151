@@ -15,7 +15,6 @@ diceResults = stdarray.create1D(12, value=0)
 trials = int(sys.argv[1])
 probabilitiesPercent = stdarray.create1D(11, value=0.0)
 
-
 #provided script describing the probabilities of two dice
 probabilities = stdarray.create1D(13, 0.0)
 for i in range(1, 7):
@@ -36,6 +35,9 @@ for k in range(trials):
             break
 
 stdio.write(diceResults)
+#I can't use diceResultsChance = diceResults/trials to iteratively divide each element of the array
+# by the amount of trials to find the experimentally determined probability. Must I define the iteration
+# with a for loop? Thanks :)
 
 #confused about how lists are mutable vs immutable arrays produced by the booksite module... can
 # we iterate over the booksite arrays?
