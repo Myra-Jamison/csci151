@@ -34,13 +34,21 @@ for k in range(trials):
             diceResults[count] += 1
             break
 
-stdio.write(diceResults)
-#I can't use diceResultsChance = diceResults/trials to iteratively divide each element of the array
-# by the amount of trials to find the experimentally determined probability. Must I define the iteration
-# with a for loop? Thanks :)
+#check dice results against theoretic probability
+diceChance = [float(m)/trials for m in diceResults]
+output = "Fits theoretical to 3 significant figures"
+error = stdarray.create1D(0,0.0)
+m = 0
+while m < 12:
+    error.append(diceChance[m]-probabilitiesPercent[m+1])
+    if abs(error[m]) > 0.001:
+        output = "Does not fit theoretical to 3 significant figures"
+        break
+    m +=1
 
-#confused about how lists are mutable vs immutable arrays produced by the booksite module... can
-# we iterate over the booksite arrays?
+#write output
+stdio.write("Dice Results: " + str(diceResults[1:]) + " from 2 to 12")
+stdio.writeln("\n" + output)
 
-#also, its a lot; to get our theoretical and experimental to match to 3 decimal places,
+#its a lot; to get our theoretical and experimental to match to 3 decimal places,
 # approximately 10^6 trials are required
