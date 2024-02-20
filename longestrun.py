@@ -13,16 +13,22 @@ import stdarray
 input = list(stdio.readAllInts())
 
 #make an array to store results in, then calculate consecutive runs
-storedResults = stdarray.create1D(max(input),1)
+storedResults = stdarray.create1D((max(input)+1),1)
 count = 0
+bestLength = 1
+currentLength = 1
 for i in input:
-    if input[count] == input[count-1] and count > 0:
-        storedResults[i] += 1
+    if input[count] == input[count-1] and count != 0:
+        currentLength += 1
+        if currentLength >= bestLength:
+            bestLength = currentLength
+            storedResults[i] = bestLength
+    if input[count] != input[count-1] and count != 0:
+        currentLength = 1
     count += 1
 
 #find value and length of longest consecutive run
-length = max(storedResults)
-value = storedResults.index(length)
+value = storedResults.index(bestLength)
 
 #write results to stdout
-stdio.write('Longest Run: ' + str(length) + ' consecutive ' + str(value) +'s')
+stdio.write('Longest Run: ' + str(bestLength) + ' consecutive ' + str(value) +'s')
