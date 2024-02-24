@@ -1,18 +1,27 @@
+#----------------
+# Postal Barcode
+# ----------------
+# Myra Jamison, February 23, CSCI151
+
+#draw to stdout a barcode using the USPS barcode system for
+#a given 5 or 9 digit zipcode
+
+#imports
 import sys
 import stddraw
 import stdarray
 
-#define functions
+#define functions to draw bars of two lengths
 def short(x):
     stddraw.filledRectangle(x,0,0.2,0.5)
-
 def tall(x):
     stddraw.filledRectangle(x,0,0.2,1)
-    
-def drawbar(totalCode):
+
+#defining function to draw barcode
+def drawbarcode(stri):
     tall(0)
     x = 0.3
-    for i in totalCode:
+    for i in stri:
         if i == 's':
             short(x)
         if i == 't':
@@ -20,28 +29,34 @@ def drawbar(totalCode):
         x += 0.3
     tall(x)
 
+#creating a function to encode zip codes as strings of two values
 def codeGen(num):
-    totalCode = ''
+    zipEncoded = ''
     for i in str(num):
-        totalCode += codes[int(i)]
-    return totalCode
+        zipEncoded += codes[int(i)]
+    return zipEncoded
 
-#create variables
+#creating checksum and returning its encoded string
+def checksum(num):
+    sumOfDigits = 0
+    for i in str(num):
+        sumOfDigits += int(i)
+    return codes[sumOfDigits%10]
+
+#encoding system
 codes = stdarray.create1D(10,'')
 codes = ['ttsss','ssstt','sstst','sstts','stsst','ststs','sttss',
          'tssst','tssts','tstss']
 
-input = str(sys.argv[1])
-input = input.replace('-','')
+#stdin
+input = sys.argv[1].replace('-','')
 
-#plotting
+#stdout parameters
 if len(input) == 5:
-    stddraw.setXscale(0,8.1)
-elif len(input) == 9:
-    stddraw.setXscale(0,14.1)
-else: stddraw.setXscale(0,20)
-stddraw.setYscale(0,1.5)
+    stddraw.setXscale(0,9.6)
+else: stddraw.setXscale(0,15.6)
+stddraw.setYscale(0,1.1)
 
-
-drawbar(codeGen(input))
+#calling functions to create stdout drawing
+drawbarcode(codeGen(input) + checksum(input))
 stddraw.show()
