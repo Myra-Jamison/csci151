@@ -1,5 +1,5 @@
 #----------------
-# Postal Barcode
+# Postal Barcode (assignment 8a)
 # ----------------
 # Myra Jamison, February 23, CSCI151
 
