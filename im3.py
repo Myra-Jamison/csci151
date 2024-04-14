@@ -1,9 +1,9 @@
 #------------------------------------------
-# Assignment 11a, part 2
+# Assignment 11a, part 3
 # -------------------------------------
 # Myra Jamison, April 5
 
-#this script flips an image 90 degrees
+#this script produces 3 rgb filtered images from a full color image
 
 #import packages
 import stddraw
@@ -15,6 +15,7 @@ import sys
 
 #import picture from command line input, find dimensions. we import as a pygame object
 #because the data types provided by that package play friendlier with arrays
+
 pic = pygame.image.load(sys.argv[1])
 width = pic.get_width()
 height = pic.get_height()
@@ -31,19 +32,26 @@ for x in range(width):
         array[count, 1] = tuple(colorPixel)
         count += 1      
 
-#import the picture again, this time with a booksite module for printing
+#import three copies of picture again, this time with a booksite module for printing
 #with stddraw
-pict = picture.Picture(sys.argv[1])
-stddraw.setYscale(0,height)
-stddraw.setXscale(0, width)
+pictR = picture.Picture(sys.argv[1])
+pictG = picture.Picture(sys.argv[1])
+pictB = picture.Picture(sys.argv[1])
 
 #iterate through every row in the array. unpack color tuples and re-encode them in the color.Color class and as x and y
-#coordinates. apply an orthoganal transformation to x and y to rotate the image 90 degrees.
+#coordinates. modify each picture to only be in red green or blue.
 for i in range(len(array[:,0])):
     (r,g,b,a) = array[i,1]
     (x,y) = array[i,0]
-    pict.set(y,x,color.Color(r,g,b))
+    pictR.set(x,y,color.Color(r,0,0))
+    pictG.set(x,y,color.Color(0,g,0))
+    pictB.set(x,y,color.Color(0,0,b))
 
-#draw
-stddraw.picture(pict)
+#draw the three pictures next to each other
+stddraw.setCanvasSize(w=width*3,h=height)
+stddraw.setYscale(0,height)
+stddraw.setXscale(0,width*3)
+stddraw.picture(pictR, width*0.5, height/2)
+stddraw.picture(pictG, width*1.5, height/2)
+stddraw.picture(pictB, width*2.5, height/2)
 stddraw.show()
